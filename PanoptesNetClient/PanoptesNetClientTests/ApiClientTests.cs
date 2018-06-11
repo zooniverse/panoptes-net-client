@@ -14,8 +14,6 @@ namespace PanoptesNetClientTests_NUnit
         [Test]
         public void HelloWorldTest()
         {
-            ApiClient test = new ApiClient();
-            Console.WriteLine("HELLO THERE");
             Assert.True(true);
         }
     }

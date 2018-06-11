@@ -16,8 +16,6 @@ namespace PanoptesNetClient
         static HttpClient client = new HttpClient();
         public ApiClient()
         {
-            Console.WriteLine("LOOK RIGHT HERE");
-            Console.WriteLine(Config.Host);
             RunAsync().GetAwaiter().GetResult();
         }
 
@@ -47,7 +45,6 @@ namespace PanoptesNetClient
                 string d = await response.Content.ReadAsStringAsync();
                 resource = JObject.Parse(d);
                 JObject test = JObject.Parse(d);
-                // Console.WriteLine(test);
             }
             Console.ReadLine();
             return resource;
