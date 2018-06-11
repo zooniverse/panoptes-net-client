@@ -12,7 +12,6 @@ namespace ClientRunner
         static void Main(string[] args)
         {
             ApiClient test = new ApiClient();
-            Console.WriteLine(test);
             Console.ReadLine();
         }
     }

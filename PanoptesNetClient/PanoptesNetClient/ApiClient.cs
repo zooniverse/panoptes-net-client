@@ -16,12 +16,14 @@ namespace PanoptesNetClient
         static HttpClient client = new HttpClient();
         public ApiClient()
         {
+            Console.WriteLine("LOOK RIGHT HERE");
+            Console.WriteLine(Config.Host);
             RunAsync().GetAwaiter().GetResult();
         }
 
         static async Task RunAsync()
         {
-            client.BaseAddress = new Uri("https://panoptes-staging.zooniverse.org/");
+            client.BaseAddress = new Uri(Config.Host);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
@@ -45,7 +47,7 @@ namespace PanoptesNetClient
                 string d = await response.Content.ReadAsStringAsync();
                 resource = JObject.Parse(d);
                 JObject test = JObject.Parse(d);
-                Console.WriteLine(test);
+                // Console.WriteLine(test);
             }
             Console.ReadLine();
             return resource;
