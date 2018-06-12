@@ -6,17 +6,26 @@ using System.Threading.Tasks;
 
 namespace PanoptesNetClient
 {
-    public class Project
-    {
-        public string Id { get; set; }
-    }
-
     public class ApiClient
     {
         static HttpClient client = new HttpClient();
-        public ApiClient()
+        private static ApiClient instance;
+
+        private ApiClient()
         {
             RunAsync().GetAwaiter().GetResult();
+        }
+
+        public static ApiClient Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ApiClient();
+                }
+                return instance;
+            }
         }
 
         static async Task RunAsync()

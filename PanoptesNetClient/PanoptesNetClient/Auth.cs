@@ -6,17 +6,13 @@ using System.Net.Http;
 
 namespace PanoptesNetClient
 {
-    static class Constants
-    {
-        public const int BearerTokenExpirationAllowance = 60 * 1000;
-    }
-
     public class Auth
     {
         //  string BearerToken;
         // private double BearerTokenExpiration;
         // private string RefreshToken;
         // private dynamic TokenRefreshPromise;
+        public const int BearerTokenExpirationAllowance = 60 * 1000;
         private static readonly HttpClient client = new HttpClient();
 
         private void _GetAuthToken()
