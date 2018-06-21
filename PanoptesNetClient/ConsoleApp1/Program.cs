@@ -14,11 +14,6 @@ namespace ClientRunner
         {
             ApiClient test = ApiClient.Instance;
             Console.WriteLine("test");
-            var appSettings = ConfigurationManager.AppSettings;
-            foreach (var key in appSettings.AllKeys)
-            {
-                Console.WriteLine("Key: {0} Value: {1}", key, appSettings[key]);
-            }
             Console.WriteLine("done");
             Console.ReadLine();
         }

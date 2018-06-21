@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Configuration;
 
 namespace PanoptesNetClient
 {
@@ -15,6 +16,11 @@ namespace PanoptesNetClient
 
         public static string API_HOSTS()
         {
+            var appSettings = ConfigurationManager.AppSettings;
+            foreach (var key in appSettings.AllKeys)
+            {
+                Console.WriteLine("Key: {0} Value: {1}", key, appSettings[key]);
+            }
             return env == "production" ? "https://www.zooniverse.org" : "https://panoptes-staging.zooniverse.org";
         }
 

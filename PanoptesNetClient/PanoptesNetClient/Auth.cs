@@ -32,6 +32,6 @@ namespace PanoptesNetClient
         private void _GetBearerToken()
         {
         }
- 
+
     }
 }
