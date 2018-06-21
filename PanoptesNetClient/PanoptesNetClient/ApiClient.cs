@@ -55,7 +55,6 @@ namespace PanoptesNetClient
                 resource = JObject.Parse(d);
                 JObject test = JObject.Parse(d);
             }
-            Console.ReadLine();
             return resource;
         }
     }
