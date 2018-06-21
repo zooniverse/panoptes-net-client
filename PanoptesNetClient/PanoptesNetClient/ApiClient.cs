@@ -13,6 +13,12 @@ namespace PanoptesNetClient
 
         private ApiClient()
         {
+            client.BaseAddress = new Uri(Config.Host);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Add("Accept", "application/vnd.api+json; version=1");
+ 
             RunAsync().GetAwaiter().GetResult();
         }
 
@@ -28,16 +34,11 @@ namespace PanoptesNetClient
             }
         }
 
-        static async Task RunAsync()
+        private async Task RunAsync()
         {
-            client.BaseAddress = new Uri(Config.Host);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Add("Accept", "application/vnd.api+json; version=1");
             try
             {
-                await GetProjectAsync();
+                await GetProject();
             }
             catch (Exception e)
             {
@@ -45,7 +46,7 @@ namespace PanoptesNetClient
             }
         }
 
-        static async Task<JObject> GetProjectAsync()
+        private async Task<JObject> GetProject()
         {
             JObject resource = null;
             HttpResponseMessage response = await client.GetAsync("api/projects/1594");
