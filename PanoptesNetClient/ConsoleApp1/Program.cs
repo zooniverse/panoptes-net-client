@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PanoptesNetClient;
 using System.Configuration;
+using System.Collections.Specialized;
 
 namespace ClientRunner
 {
@@ -12,7 +13,8 @@ namespace ClientRunner
     {
         static void Main(string[] args)
         {
-            ApiClient test = ApiClient.Instance;
+            ApiClient client = ApiClient.Instance;
+            var test = client.Type("projects").ById("1594").GetAsync();
             Console.ReadLine();
         }
     }

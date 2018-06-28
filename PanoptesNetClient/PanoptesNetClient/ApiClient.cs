@@ -8,18 +8,16 @@ namespace PanoptesNetClient
 {
     public class ApiClient
     {
-        static HttpClient client = new HttpClient();
+        public HttpClient Client = new HttpClient();
         private static ApiClient instance;
 
         private ApiClient()
         {
-            client.BaseAddress = new Uri(Config.Host);
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(
+            Client.BaseAddress = new Uri(Config.Host);
+            Client.DefaultRequestHeaders.Accept.Clear();
+            Client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
-            client.DefaultRequestHeaders.Add("Accept", "application/vnd.api+json; version=1");
- 
-            RunAsync().GetAwaiter().GetResult();
+            Client.DefaultRequestHeaders.Add("Accept", "application/vnd.api+json; version=1");
         }
 
         public static ApiClient Instance
@@ -34,27 +32,20 @@ namespace PanoptesNetClient
             }
         }
 
-        private async Task RunAsync()
+        public IRequest Type(string resource)
         {
-            try
-            {
-                await GetProject();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            IRequest request = new Request(resource);
+            return request;
         }
 
-        private async Task<JObject> GetProject()
+        public async Task<JObject> GetAsync(IRequest request)
         {
             JObject resource = null;
-            HttpResponseMessage response = await client.GetAsync("api/projects/1594");
+            HttpResponseMessage response = await Client.GetAsync(request.Endpoint);
             if (response.IsSuccessStatusCode)
             {
                 string d = await response.Content.ReadAsStringAsync();
                 resource = JObject.Parse(d);
-                JObject test = JObject.Parse(d);
             }
             return resource;
         }
