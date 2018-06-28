@@ -17,6 +17,7 @@ namespace PanoptesNetClient
         public Request(string resource)
         {
             Resource = resource;
+            Endpoint = $"api/{resource}/";
         }
 
         public IRequest ById(string id)
@@ -45,16 +46,13 @@ namespace PanoptesNetClient
 
         public void BuildEndpoint()
         {
-            string endpoint = $"api/{Resource}/";
             if (!string.IsNullOrEmpty(Id))
             {
-                endpoint += Id;
-                Endpoint = endpoint;
+                Endpoint += Id;
             }
             if (!string.IsNullOrEmpty(Query))
             {
-                endpoint += Query;
-                Endpoint = endpoint;
+                Endpoint += Query;
             }
         }
     }

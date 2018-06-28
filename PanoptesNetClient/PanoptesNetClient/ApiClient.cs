@@ -41,11 +41,18 @@ namespace PanoptesNetClient
         public async Task<JObject> GetAsync(IRequest request)
         {
             JObject resource = null;
+
             HttpResponseMessage response = await Client.GetAsync(request.Endpoint);
             if (response.IsSuccessStatusCode)
             {
                 string d = await response.Content.ReadAsStringAsync();
                 resource = JObject.Parse(d);
+            }
+            else
+            {
+                Console.WriteLine(
+                    $"Error: the status code is {response.StatusCode}"    
+                );
             }
             return resource;
         }

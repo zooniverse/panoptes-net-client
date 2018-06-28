@@ -14,7 +14,7 @@ namespace ClientRunner
         static void Main(string[] args)
         {
             ApiClient client = ApiClient.Instance;
-            var test = client.Type("projects").ById("1594").GetAsync();
+            var test = client.Type("projects").GetAsync();
             Console.ReadLine();
         }
     }
