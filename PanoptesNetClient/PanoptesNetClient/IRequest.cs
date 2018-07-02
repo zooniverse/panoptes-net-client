@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PanoptesNetClient
@@ -15,5 +11,6 @@ namespace PanoptesNetClient
         IRequest ById(string id);
         IRequest WithArgs(NameValueCollection query);
         Task<JObject> GetAsync();
+        void BuildEndpoint();
     }
 }

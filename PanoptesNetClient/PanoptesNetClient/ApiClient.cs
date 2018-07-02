@@ -6,27 +6,34 @@ using System.Threading.Tasks;
 
 namespace PanoptesNetClient
 {
-    public class ApiClient
+    public class ApiClient : IClient
     {
         public HttpClient Client = new HttpClient();
         private static ApiClient instance;
+        private static readonly object padlock = new object();
 
         private ApiClient()
         {
             Client.BaseAddress = new Uri(Config.Host);
             Client.DefaultRequestHeaders.Accept.Clear();
             Client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+              new MediaTypeWithQualityHeaderValue("application/json"));
             Client.DefaultRequestHeaders.Add("Accept", "application/vnd.api+json; version=1");
         }
 
+        // <summary>
+        // Implement double-check locking for multi-threaded environment
+        // </summary>
         public static ApiClient Instance
         {
             get
             {
-                if (instance == null)
+                lock (padlock)
                 {
-                    instance = new ApiClient();
+                    if (instance == null)
+                    {
+                        instance = new ApiClient();
+                    }
                 }
                 return instance;
             }
