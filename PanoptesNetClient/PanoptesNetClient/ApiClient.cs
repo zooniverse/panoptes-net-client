@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace PanoptesNetClient
 {
-    public class ApiClient : IClient
-    {
-        public HttpClient Client = new HttpClient();
-        private static ApiClient instance;
-        private static readonly object padlock = new object();
+    public class ApiClient
+    { 
+        private static HttpClient Client;
 
-        private ApiClient()
+        private void ConfigClient()
         {
             Client.BaseAddress = new Uri(Config.Host);
             Client.DefaultRequestHeaders.Accept.Clear();
@@ -21,22 +19,14 @@ namespace PanoptesNetClient
             Client.DefaultRequestHeaders.Add("Accept", "application/vnd.api+json; version=1");
         }
 
-        // <summary>
-        // Implement double-check locking for multi-threaded environment
-        // </summary>
-        public static ApiClient Instance
+        public ApiClient(HttpClient client = null)
         {
-            get
+            if (client == null)
             {
-                lock (padlock)
-                {
-                    if (instance == null)
-                    {
-                        instance = new ApiClient();
-                    }
-                }
-                return instance;
+                client = new HttpClient();
             }
+            Client = client;
+            ConfigClient();
         }
 
         public IRequest Type(string resource)
@@ -45,7 +35,7 @@ namespace PanoptesNetClient
             return request;
         }
 
-        public async Task<JObject> GetAsync(IRequest request)
+        public static async Task<JObject> GetAsync(IRequest request)
         {
             JObject resource = null;
 

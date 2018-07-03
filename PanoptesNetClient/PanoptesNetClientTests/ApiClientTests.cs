@@ -14,7 +14,7 @@ namespace PanoptesNetClientTests_NUnit
         [Test]
         public void CanInit()
         {
-            ApiClient client = ApiClient.Instance;
+            ApiClient client = new ApiClient();
         }
 
         // <summary>
@@ -23,7 +23,8 @@ namespace PanoptesNetClientTests_NUnit
         [Test]
         public void Type()
         {
-            IRequest request = ApiClient.Instance.Type("projects");
+            ApiClient client = new ApiClient();
+            IRequest request = client.Type("projects");
             string expected = "api/projects/";
 
             Assert.AreEqual(expected, request.Endpoint);
@@ -32,7 +33,7 @@ namespace PanoptesNetClientTests_NUnit
         [Test]
         public async Task GetAsync()
         {
-            ApiClient client = ApiClient.Instance;
+            ApiClient client = new ApiClient();
             JObject resource = await client.Type("projects").ById("45").GetAsync();
         }
     }

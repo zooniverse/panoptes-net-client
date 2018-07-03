@@ -13,7 +13,7 @@ namespace ClientRunner
     {
         static void Main(string[] args)
         {
-            ApiClient client = ApiClient.Instance;
+            ApiClient client = new ApiClient();
             var test = client.Type("projects").GetAsync();
             Console.ReadLine();
         }
