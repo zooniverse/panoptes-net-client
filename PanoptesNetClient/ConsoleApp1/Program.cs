@@ -1,4 +1,5 @@
-﻿using PanoptesNetClient;
+﻿using Newtonsoft.Json.Linq;
+using PanoptesNetClient;
 using System;
 
 namespace ClientRunner

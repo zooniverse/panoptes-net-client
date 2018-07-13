@@ -21,21 +21,18 @@ namespace PanoptesNetClient
 
         public ApiClient(HttpClient client = null)
         {
-            if (client == null)
+            if (Client == null)
             {
-                client = new HttpClient();
+                if (client == null)
+                {
+                    client = new HttpClient();
+                }
+                Client = client;
+                ConfigClient();
             }
-            Client = client;
-            ConfigClient();
         }
 
-        public IRequest Type(string resource)
-        {
-            IRequest request = new Request(resource);
-            return request;
-        }
-
-        public static async Task<JObject> GetAsync(IRequest request)
+        public async Task<JObject> GetAsync(IRequest request)
         {
             JObject resource = null;
 

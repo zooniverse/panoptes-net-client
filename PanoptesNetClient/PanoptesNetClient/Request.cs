@@ -37,12 +37,6 @@ namespace PanoptesNetClient
             return this;
         }
 
-        public async Task<JObject> GetAsync()
-        {
-            BuildEndpoint();
-            return await ApiClient.GetAsync(this);
-        }
-
         public void BuildEndpoint()
         {
             if (!string.IsNullOrEmpty(Id))

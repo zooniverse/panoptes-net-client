@@ -10,7 +10,6 @@ namespace PanoptesNetClient
 
         IRequest ById(string id);
         IRequest WithArgs(NameValueCollection query);
-        Task<JObject> GetAsync();
         void BuildEndpoint();
     }
 }

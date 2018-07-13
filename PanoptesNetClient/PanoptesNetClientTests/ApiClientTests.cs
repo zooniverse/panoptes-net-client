@@ -28,7 +28,7 @@ namespace PanoptesNetClientTests_NUnit
         [Test]
         public void Type()
         {
-            IRequest request = Client.Type("projects");
+            IRequest request = new Request("projects");
             string expected = "api/projects/";
 
             Assert.AreEqual(expected, request.Endpoint);
@@ -47,7 +47,8 @@ namespace PanoptesNetClientTests_NUnit
             });
             Client = new ApiClient(_httpClient);
 
-            var result = await Client.Type("projects").ById("45").GetAsync();
+            IRequest request = new Request("projects").ById("45");
+            var result = await Client.GetAsync(request);
             Assert.That(result, Is.Not.Null);
             Assert.IsInstanceOf<JObject>(result);
         }
