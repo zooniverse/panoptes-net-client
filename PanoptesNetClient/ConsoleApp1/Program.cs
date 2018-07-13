@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json.Linq;
 using PanoptesNetClient;
-using System.Configuration;
+using System;
 
 namespace ClientRunner
 {
@@ -12,7 +8,7 @@ namespace ClientRunner
     {
         static void Main(string[] args)
         {
-            ApiClient test = ApiClient.Instance;
+            ApiClient client = new ApiClient();
             Console.ReadLine();
         }
     }
