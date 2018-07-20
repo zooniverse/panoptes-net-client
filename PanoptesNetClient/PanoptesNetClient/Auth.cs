@@ -8,7 +8,7 @@ namespace PanoptesNetClient
 {
     public class Auth
     {
-        //  string BearerToken;
+        private string BearerToken;
         // private double BearerTokenExpiration;
         // private string RefreshToken;
         // private dynamic TokenRefreshPromise;

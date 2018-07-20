@@ -1,5 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
+using PanoptesNetClient.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -32,15 +35,32 @@ namespace PanoptesNetClient
             }
         }
 
-        public async Task<JObject> GetAsync(IRequest request)
+        public async Task<Workflow> GetAsync(IRequest request)
         {
-            JObject resource = null;
+            Workflow resource = null;
 
             HttpResponseMessage response = await Client.GetAsync(request.Endpoint);
             if (response.IsSuccessStatusCode)
             {
                 string d = await response.Content.ReadAsStringAsync();
-                resource = JObject.Parse(d);
+                Console.WriteLine(resource);
+                JObject googleSearch = JObject.Parse(d);
+
+                // get JSON result objects into a list
+                IList<JToken> results = googleSearch["workflows"].Children().ToList();
+
+                // serialize JSON results into .NET objects
+                IList<Workflow> searchResults = new List<Workflow>();
+
+                foreach (JToken result in results)
+                {
+                    // JToken.ToObject is a helper method that uses JsonSerializer internally
+                    Workflow searchResult = result.ToObject<Workflow>();
+                    resource = searchResult;
+                    Console.WriteLine(searchResult.Id);
+                    Console.WriteLine(searchResult.display_name);
+                    searchResults.Add(searchResult);
+                }
             }
             else
             {

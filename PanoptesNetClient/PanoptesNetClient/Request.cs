@@ -22,6 +22,7 @@ namespace PanoptesNetClient
         public IRequest ById(string id)
         {
             Id = id;
+            BuildEndpoint();
             return this;
         }
 
@@ -34,6 +35,7 @@ namespace PanoptesNetClient
                 collection[key] = query[key];
             }
             Query = $"?{collection.ToString()}";
+            BuildEndpoint();
             return this;
         }
 
