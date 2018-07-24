@@ -7,20 +7,26 @@ using System.Threading.Tasks;
 
 namespace PanoptesNetClient.Models
 {
-    public class Workflow
+    public class Project
     {
         public string Id { get; set; }
 
         [JsonProperty("display_name")]
         public string DisplayName { get; set; }
 
-        public dynamic Tasks { get; set; }
-
         [JsonProperty("classifications_count")]
         public int ClassificationsCount { get; set; }
 
-        public dynamic Retirement { get; set; }
+        [JsonProperty("subjects_count")]
+        public int SubjectsCount { get; set; }
 
-        public string Completedness { get; set; }
+        public string Title { get; set; }
+
+        public string Description { get; set; }
+
+        public List<Dictionary<string, string>> Guide { get; set; }
+
+        [JsonProperty("retired_subjects_count")]
+        public int RetiredSubjectsCount { get; set; }
     }
 }

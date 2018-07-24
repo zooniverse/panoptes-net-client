@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using PanoptesNetClient.Models;
 using System;
 using System.Collections.Generic;
@@ -56,9 +57,7 @@ namespace PanoptesNetClient
                 {
                     // JToken.ToObject is a helper method that uses JsonSerializer internally
                     Workflow searchResult = result.ToObject<Workflow>();
-                    resource = searchResult;
-                    Console.WriteLine(searchResult.Id);
-                    Console.WriteLine(searchResult.display_name);
+                    resource = searchResult;;
                     searchResults.Add(searchResult);
                 }
             }
@@ -70,5 +69,32 @@ namespace PanoptesNetClient
             }
             return resource;
         }
+
+        #region Generic Rest
+        public async Task<T> Get<T>(IRequest request)
+        {
+            HttpResponseMessage response = await Client.GetAsync(request.Endpoint);
+            if (response.IsSuccessStatusCode)
+            {
+                string d = await response.Content.ReadAsStringAsync();
+                JObject result = JObject.Parse(d);
+
+                IList<JToken> results = result[request.Resource].Children().ToList();
+                IList<T> searchResults = new List<T>();
+
+                foreach (JToken item in results)
+                {
+                    return item.ToObject<T>();
+                }
+            }
+            else
+            {
+                Console.WriteLine(
+                    $"Error: the status code is {response.StatusCode}"
+                );
+            }
+            return default(T);
+        }
+        #endregion
     }
 }

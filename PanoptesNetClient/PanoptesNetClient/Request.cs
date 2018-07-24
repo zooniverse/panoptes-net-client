@@ -8,7 +8,7 @@ namespace PanoptesNetClient
 {
     public class Request : IRequest
     {
-        private string Resource;
+        public string Resource { get; set; }
         private string Id;
         public string Endpoint { get; set; }
         private string Query;
