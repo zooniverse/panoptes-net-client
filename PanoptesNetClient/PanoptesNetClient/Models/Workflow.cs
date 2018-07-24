@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace PanoptesNetClient.Models
 {
-    public class Workflow
+    public class Workflow : IResource
     {
+        public static string Type = "workflows";
+
         public string Id { get; set; }
 
         [JsonProperty("display_name")]
@@ -22,5 +24,10 @@ namespace PanoptesNetClient.Models
         public dynamic Retirement { get; set; }
 
         public string Completedness { get; set; }
+
+        public string Endpoint()
+        {
+            return $"api/workflows/";
+        }
     }
 }

@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace PanoptesNetClient.Models
 {
-    public class Project
+    public class Project : IResource
     {
+        public static string Type = "projects";
+
         public string Id { get; set; }
 
         [JsonProperty("display_name")]
@@ -24,9 +26,14 @@ namespace PanoptesNetClient.Models
 
         public string Description { get; set; }
 
-        public List<Dictionary<string, string>> Guide { get; set; }
+        public dynamic Links { get; set; }
 
         [JsonProperty("retired_subjects_count")]
         public int RetiredSubjectsCount { get; set; }
+
+        public string Endpoint()
+        {
+            return $"api/projects/";
+        }
     }
 }

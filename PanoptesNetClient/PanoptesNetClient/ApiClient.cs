@@ -78,7 +78,6 @@ namespace PanoptesNetClient
             {
                 string d = await response.Content.ReadAsStringAsync();
                 JObject result = JObject.Parse(d);
-
                 IList<JToken> results = result[request.Resource].Children().ToList();
                 IList<T> searchResults = new List<T>();
 
@@ -96,5 +95,18 @@ namespace PanoptesNetClient
             return default(T);
         }
         #endregion
+
+        public async Task<T> Update<T>(IResource resource)
+        {
+            Console.WriteLine(resource.Endpoint());
+            HttpResponseMessage response = await Client.PutAsJsonAsync(
+                $"{resource.Endpoint()}{resource.Id}", resource);
+            response.EnsureSuccessStatusCode();
+            
+            T item = await response.Content.ReadAsAsync<T>();
+            Console.WriteLine("HERE IS THE ITEM");
+            Console.WriteLine(item);
+            return item;
+        }
     }
 }
