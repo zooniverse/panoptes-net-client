@@ -33,9 +33,14 @@ namespace PanoptesNetClient.Models
         [JsonProperty("retired_subjects_count")]
         public int RetiredSubjectsCount { get; set; }
 
-        public string Endpoint()
+        public string Type()
         {
-            return $"api/projects/";
+            return "projects";
+        }
+
+        public bool ShouldSerializeId()
+        {
+            return false;
         }
     }
 }

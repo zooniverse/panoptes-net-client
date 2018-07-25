@@ -24,9 +24,14 @@ namespace PanoptesNetClient.Models
         [JsonProperty("links")]
         public SubjectLinks Links { get; set; }
 
-        public string Endpoint()
+        public string Type()
         {
-            return $"api/subjects/";
+            return "subjects";
+        }
+
+        public bool ShouldSerializeId()
+        {
+            return false;
         }
     }
 

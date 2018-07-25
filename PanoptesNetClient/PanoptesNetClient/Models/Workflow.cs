@@ -27,9 +27,14 @@ namespace PanoptesNetClient.Models
         [JsonProperty("completedness")]
         public string Completedness { get; set; }
 
-        public string Endpoint()
+        public string Type()
         {
-            return $"api/workflows/";
+            return "workflows";
+        }
+
+        public bool ShouldSerializeId()
+        {
+            return false;
         }
     }
 }

@@ -9,6 +9,6 @@ namespace PanoptesNetClient
     public interface IResource
     {
         string Id { get; set; }
-        string Endpoint();
+        string Type();
     }
 }

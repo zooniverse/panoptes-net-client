@@ -1,9 +1,5 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PanoptesNetClient.Models
 {
@@ -13,17 +9,22 @@ namespace PanoptesNetClient.Models
         public string Id { get; set; }
 
         [JsonProperty("metadata")]
-        public dynamic Metadata { get; set; }
+        public ClassificationMetadata Metadata { get; set; } = new ClassificationMetadata();
 
         [JsonProperty("annotations")]
-        public List<dynamic> Annotations { get; set; }
+        public List<Annotation> Annotations { get; set; } = new List<Annotation>();
 
         [JsonProperty("links")]
         public ClassificationLinks Links { get; set; }
 
-        public string Endpoint()
+        public string Type()
         {
-            return $"api/classifications/";
+            return "classifications";
+        }
+
+        public bool ShouldSerializeId()
+        {
+            return false;
         }
     }
 
@@ -44,5 +45,23 @@ namespace PanoptesNetClient.Models
             Workflow = workflow;
             Subjects = new List<string>();
         }
+    }
+
+    public class ClassificationMetadata
+    {
+        [JsonProperty("started_at")]
+        public string StartedAt { get; set; }
+
+        [JsonProperty("finished_at")]
+        public string FinishedAt { get; set; }
+
+        [JsonProperty("user_agent")]
+        public string UserAgent { get; set; }
+
+        [JsonProperty("user_language")]
+        public string UserLanguage { get; set; }
+
+        [JsonProperty("workflow_version")]
+        public string WorkflowVersion { get; set; }
     }
 }

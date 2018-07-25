@@ -40,6 +40,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.6\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,6 +53,7 @@
     <Compile Include="Auth.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="IRequest.cs" />
+    <Compile Include="Models\Annotation.cs" />
     <Compile Include="Models\IResource.cs" />
     <Compile Include="Models\Classification.cs" />
     <Compile Include="Models\Project.cs" />

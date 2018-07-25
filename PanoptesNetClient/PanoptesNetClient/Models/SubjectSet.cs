@@ -18,9 +18,14 @@ namespace PanoptesNetClient.Models
         [JsonProperty("metadata")]
         public dynamic Metadata { get; set; }
 
-        public string Endpoint()
+        public string Type()
         {
-            return $"api/subject_sets/";
+            return "subject_sets";
+        }
+
+        public bool ShouldSerializeId()
+        {
+            return false;
         }
     }
 }

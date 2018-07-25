@@ -18,22 +18,27 @@ namespace ClientRunner
         {
             ApiClient client = new ApiClient();
 
+            IRequest request = new Request("subjects").ById("75248");
+
+            var result = await client.GetList<Subject>(request);
+            Console.WriteLine(result);
+
+            // TODO: Allow client to get item by ID
+        }
+
+        static Classification BuildClassification()
+        {
             Classification classification = new Classification();
-            Console.WriteLine(classification);
             classification.Links = new ClassificationLinks("1857", "3251");
             classification.Links.Subjects.Add("75248");
-            var result = await client.Create<Classification>(classification);
-            Console.WriteLine(result.Id);
-
-            // What do I want to do?
-
-            // client.Get<Workflow>(47)
-            // client.Create<Resource>(INFORMATION)
-            // client.Post<Resource>(Information)
             
-            // Get subject queue
-            // The above call should return the single resource workflow
+            classification.Metadata.StartedAt = DateTime.Now.ToString();
+            classification.Metadata.FinishedAt = "";
+            classification.Metadata.UserAgent = "Galaxy Zoo Touch Table";
+            classification.Metadata.UserLanguage = "en";
+            classification.Metadata.WorkflowVersion = "5.8";
 
+            return classification;
         }
     }
 }
