@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace PanoptesNetClient
@@ -96,16 +97,24 @@ namespace PanoptesNetClient
         }
         #endregion
 
+        public async Task<IResource> Create<T>(IResource resource)
+        {
+            var jsonString = JsonConvert.SerializeObject(resource);
+            Console.WriteLine(jsonString);
+            
+            HttpResponseMessage response = await Client.PostAsync(
+                $"{Config.Host}/{resource.Endpoint()}", new StringContent(jsonString, Encoding.UTF8, "application/json"));
+
+            Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+            return resource;
+        }
+
         public async Task<T> Update<T>(IResource resource)
         {
-            Console.WriteLine(resource.Endpoint());
             HttpResponseMessage response = await Client.PutAsJsonAsync(
-                $"{resource.Endpoint()}{resource.Id}", resource);
-            response.EnsureSuccessStatusCode();
-            
+                $"{resource.Endpoint()}/{resource.Id}", resource);
+            Console.WriteLine(response.StatusCode);
             T item = await response.Content.ReadAsAsync<T>();
-            Console.WriteLine("HERE IS THE ITEM");
-            Console.WriteLine(item);
             return item;
         }
     }

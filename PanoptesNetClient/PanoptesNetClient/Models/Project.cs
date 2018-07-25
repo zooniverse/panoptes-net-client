@@ -9,8 +9,7 @@ namespace PanoptesNetClient.Models
 {
     public class Project : IResource
     {
-        public static string Type = "projects";
-
+        [JsonProperty("id")]
         public string Id { get; set; }
 
         [JsonProperty("display_name")]
@@ -22,10 +21,13 @@ namespace PanoptesNetClient.Models
         [JsonProperty("subjects_count")]
         public int SubjectsCount { get; set; }
 
+        [JsonProperty("title")]
         public string Title { get; set; }
 
+        [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("links")]
         public dynamic Links { get; set; }
 
         [JsonProperty("retired_subjects_count")]

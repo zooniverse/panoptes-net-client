@@ -9,13 +9,13 @@ namespace PanoptesNetClient.Models
 {
     public class SubjectSet : IResource
     {
-        public static string Type = "subject_sets";
-
+        [JsonProperty("id")]
         public string Id { get; set; }
 
         [JsonProperty("display_name")]
         public string DisplayName { get; set; }
 
+        [JsonProperty("metadata")]
         public dynamic Metadata { get; set; }
 
         public string Endpoint()
