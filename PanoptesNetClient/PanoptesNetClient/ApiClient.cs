@@ -37,68 +37,27 @@ namespace PanoptesNetClient
             }
         }
 
-        #region Initial GetAsync method
-        public async Task<Workflow> GetAsync(IRequest request)
-        {
-            Workflow resource = null;
-
-            HttpResponseMessage response = await Client.GetAsync(request.Endpoint);
-            if (response.IsSuccessStatusCode)
-            {
-                string d = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(resource);
-                JObject googleSearch = JObject.Parse(d);
-
-                // get JSON result objects into a list
-                IList<JToken> results = googleSearch["workflows"].Children().ToList();
-
-                // serialize JSON results into .NET objects
-                IList<Workflow> searchResults = new List<Workflow>();
-
-                foreach (JToken result in results)
-                {
-                    // JToken.ToObject is a helper method that uses JsonSerializer internally
-                    Workflow searchResult = result.ToObject<Workflow>();
-                    resource = searchResult;;
-                    searchResults.Add(searchResult);
-                }
-            }
-            else
-            {
-                Console.WriteLine(
-                    $"Error: the status code is {response.StatusCode}"    
-                );
-            }
-            return resource;
-        }
-        #endregion
-
+        /// <summary>
+        /// Make a GET request for a single resource
+        /// </summary>
         #region Generic GET by IRequest
         public async Task<T> Get<T>(IRequest request)
         {
-            HttpResponseMessage response = await Client.GetAsync(request.Endpoint);
-            if (response.IsSuccessStatusCode)
-            {
-                string d = await response.Content.ReadAsStringAsync();
-                JObject result = JObject.Parse(d);
-                IList<JToken> results = result[request.Resource].Children().ToList();
-                IList<T> searchResults = new List<T>();
+            List<T> collection = await GetList<T>(request);
 
-                foreach (JToken item in results)
-                {
-                    return item.ToObject<T>();
-                }
-            }
-            else
+            if (collection.Count > 0)
             {
-                Console.WriteLine(
-                    $"Error: the status code is {response.StatusCode}"
-                );
+                return collection[0];
+            } else
+            {
+                return default(T);
             }
-            return default(T);
         }
         #endregion
 
+        /// <summary>
+        /// Make a GET request for a list of resources
+        /// </summary>
         #region Generic GET of List
         public async Task<List<T>> GetList<T>(IRequest request) 
         {
@@ -116,8 +75,7 @@ namespace PanoptesNetClient
                     searchResults.Add(thing);
                 }
                 return searchResults;
-            }
-            else
+            } else
             {
                 Console.WriteLine(
                     $"Error: the status code is {response.StatusCode}"
@@ -127,21 +85,22 @@ namespace PanoptesNetClient
         }
         #endregion
 
+        /// <summary>
+        /// Make a POST request. This should typically be for a new classification
+        /// </summary>
         #region Generic Create with IResource
         public async Task<IResource> Create<T>(IResource resource)
         {
             var dict = new Dictionary<string, IResource>();
-            dict.Add("classifications", resource);
-            var output = JsonConvert.SerializeObject(resource);
+            dict.Add(resource.Type(), resource);
 
-            var jsonString = JsonConvert.SerializeObject(dict);
+            string jsonString = JsonConvert.SerializeObject(dict);
 
-            var content = new StringContent(jsonString, Encoding.UTF8, "application/json");
+            StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await Client.PostAsync(
                 $"{Config.Host}/api/{resource.Type()}", content);
 
-            Console.WriteLine(response.Content.ReadAsStringAsync().Result);
             return resource;
         }
         #endregion

@@ -11,6 +11,6 @@ namespace PanoptesNetClient
 
         IRequest ById(string id);
         IRequest WithArgs(NameValueCollection query);
-        void BuildEndpoint();
+        string BuildEndpoint();
     }
 }

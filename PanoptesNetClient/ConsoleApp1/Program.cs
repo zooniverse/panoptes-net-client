@@ -10,20 +10,16 @@ namespace ClientRunner
     {
         static void Main(string[] args)
         {
-            Item();
+            Test();
             Console.ReadLine();
         }
 
-        static async void Item()
+        static async void Test()
         {
             ApiClient client = new ApiClient();
-
-            IRequest request = new Request("subjects").ById("75248");
-
-            var result = await client.GetList<Subject>(request);
-            Console.WriteLine(result);
-
-            // TODO: Allow client to get item by ID
+            Classification classification = new Classification();
+            var resource = client.Create<Classification>(classification);
+            Console.WriteLine(resource);
         }
 
         static Classification BuildClassification()
@@ -31,7 +27,7 @@ namespace ClientRunner
             Classification classification = new Classification();
             classification.Links = new ClassificationLinks("1857", "3251");
             classification.Links.Subjects.Add("75248");
-            
+
             classification.Metadata.StartedAt = DateTime.Now.ToString();
             classification.Metadata.FinishedAt = "";
             classification.Metadata.UserAgent = "Galaxy Zoo Touch Table";
