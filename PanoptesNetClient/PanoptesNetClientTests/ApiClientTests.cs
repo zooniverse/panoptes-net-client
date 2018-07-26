@@ -23,7 +23,7 @@ namespace PanoptesNetClientTests_NUnit
             _fakeHttpMessageHandler.Setup(f => f.Send(It.IsAny<HttpRequestMessage>())).Returns(new HttpResponseMessage
             {
                 StatusCode = System.Net.HttpStatusCode.OK,
-                Content = new StringContent("{\"workflows\":[{\"id\":\"45\"}]}")
+                Content = new StringContent("{\"classifications\":[{\"id\":\"45\"}]}")
             });
 
             _httpClient = new HttpClient(_fakeHttpMessageHandler.Object);
@@ -48,22 +48,35 @@ namespace PanoptesNetClientTests_NUnit
         [Test]
         public async Task Get()
         {
-            IRequest request = new Request("workflows").ById("45");
-            var result = await Client.Get<Workflow>(request);
+            IRequest request = new Request("classifications").ById("45");
+            var result = await Client.Get<Classification>(request);
             Assert.That(result, Is.Not.Null);
             Assert.IsInstanceOf<IResource>(result);
         }
 
         /// <summary>
-        /// Test the GetList returns a list object of the expected amount
+        /// Test that GetList returns a list object of the expected amount
         /// </summary>
         [Test]
         public async Task GetList()
         {
-            IRequest request = new Request("workflows").ById("45");
-            var result = await Client.GetList<Workflow>(request);
+            IRequest request = new Request("classifications").ById("45");
+            var result = await Client.GetList<Classification>(request);
             Assert.That(result, Is.Not.Null);
             Assert.AreEqual(result.Count, 1);
+        }
+
+        /// <summary>
+        /// Test that Create returns a single object that is not null
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public async Task Create()
+        {
+            Classification classification = new Classification();
+            var result = await Client.Create<Classification>(classification);
+            Assert.That(result, Is.Not.Null);
+            Assert.IsInstanceOf<Classification>(result);
         }
     }
 }

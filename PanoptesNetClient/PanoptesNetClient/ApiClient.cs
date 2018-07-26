@@ -38,12 +38,12 @@ namespace PanoptesNetClient
         }
 
         /// <summary>
-        /// Make a GET request for a single resource
+        /// Make a GET request for a single resource using IRequest
         /// </summary>
-        #region Generic GET by IRequest
+        #region Generic GET using IRequest
         public async Task<T> Get<T>(IRequest request)
         {
-            List<T> collection = await GetList<T>(request);
+            List<T> collection = await GetAsync<T>(request.Endpoint);
 
             if (collection.Count > 0)
             {
@@ -54,17 +54,32 @@ namespace PanoptesNetClient
         #endregion
 
         /// <summary>
-        /// Make a GET request for a list of resources
+        /// Make a GET request for a single resource using an endpoint
         /// </summary>
-        #region Generic GET of List
-        public async Task<List<T>> GetList<T>(IRequest request) 
+        #region Generic GET using string
+        public async Task<T> Get<T>(string route)
         {
-            HttpResponseMessage response = await Client.GetAsync(request.Endpoint);
+            var att = (Path)Attribute.GetCustomAttribute(typeof(T), typeof(Path));
+            List<T> collection = await GetAsync<T>($"{att.Uri}/{route}");
+
+            if (collection.Count > 0)
+            {
+                return collection[0];
+            }
+            return default(T);
+        }
+        #endregion
+
+        #region Main GET call
+        public async Task<List<T>> GetAsync<T>(string endpoint)
+        {
+            HttpResponseMessage response = await Client.GetAsync(endpoint);
             if (response.IsSuccessStatusCode)
             {
                 string d = await response.Content.ReadAsStringAsync();
                 return ParseResponse<T>(d);
-            } else
+            }
+            else
             {
                 Console.WriteLine(
                     $"Error: the status code is {response.StatusCode}"
@@ -73,6 +88,22 @@ namespace PanoptesNetClient
             return default(List<T>);
         }
         #endregion
+
+        /// <summary>
+        /// Make a GET request for a list of resources
+        /// </summary>
+        #region Generic GET of List
+        public async Task<List<T>> GetList<T>(IRequest request) 
+        {
+            return await GetAsync<T>(request.Endpoint);
+        }
+        #endregion
+
+        public async Task<List<T>> GetList<T>(string route)
+        {
+            var att = (Path)Attribute.GetCustomAttribute(typeof(T), typeof(Path));
+            return await GetAsync<T>($"{att.Uri}/{route}");
+        }
 
         /// <summary>
         /// Make a POST request. This should typically be for a new classification
