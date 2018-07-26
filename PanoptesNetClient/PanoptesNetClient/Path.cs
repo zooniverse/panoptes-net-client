@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PanoptesNetClient
 {
-    [System.AttributeUsage(System.AttributeTargets.Class)]
-    public class Path : System.Attribute
+    [AttributeUsage(AttributeTargets.Class)]
+    public class Path : Attribute
     {
         public Path(string uri, string type)
         {
