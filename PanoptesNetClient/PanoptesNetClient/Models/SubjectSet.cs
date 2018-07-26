@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace PanoptesNetClient.Models
 {
+    [Path("/api/subject_sets", "subject_sets")]
     public class SubjectSet : IResource
     {
         [JsonProperty("id")]
@@ -17,11 +18,6 @@ namespace PanoptesNetClient.Models
 
         [JsonProperty("metadata")]
         public dynamic Metadata { get; set; }
-
-        public string Type()
-        {
-            return "subject_sets";
-        }
 
         public bool ShouldSerializeId()
         {

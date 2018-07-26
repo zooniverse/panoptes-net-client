@@ -60,6 +60,7 @@
     <Compile Include="Models\Subject.cs" />
     <Compile Include="Models\SubjectSet.cs" />
     <Compile Include="Models\Workflow.cs" />
+    <Compile Include="Path.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request.cs" />
   </ItemGroup>

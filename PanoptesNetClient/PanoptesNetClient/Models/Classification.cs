@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace PanoptesNetClient.Models
 {
+    [Path("/api/classifications", "classifications")]
     public class Classification : IResource
     {
         [JsonProperty("id")]
@@ -16,11 +17,6 @@ namespace PanoptesNetClient.Models
 
         [JsonProperty("links")]
         public ClassificationLinks Links { get; set; }
-
-        public string Type()
-        {
-            return "classifications";
-        }
 
         public bool ShouldSerializeId()
         {

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace PanoptesNetClient.Models
 {
+    [Path("/api/workflows", "workflows")]
     public class Workflow : IResource
     {
         [JsonProperty("id")]
@@ -26,11 +27,6 @@ namespace PanoptesNetClient.Models
 
         [JsonProperty("completedness")]
         public string Completedness { get; set; }
-
-        public string Type()
-        {
-            return "workflows";
-        }
 
         public bool ShouldSerializeId()
         {

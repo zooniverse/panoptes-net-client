@@ -48,10 +48,8 @@ namespace PanoptesNetClient
             if (collection.Count > 0)
             {
                 return collection[0];
-            } else
-            {
-                return default(T);
             }
+            return default(T);
         }
         #endregion
 
@@ -65,16 +63,7 @@ namespace PanoptesNetClient
             if (response.IsSuccessStatusCode)
             {
                 string d = await response.Content.ReadAsStringAsync();
-                JObject result = JObject.Parse(d);
-                List<JToken> results = result[request.Resource].Children().ToList();
-                List<T> searchResults = new List<T>();
-
-                foreach (JToken item in results)
-                {
-                    T thing = item.ToObject<T>();
-                    searchResults.Add(thing);
-                }
-                return searchResults;
+                return ParseResponse<T>(d);
             } else
             {
                 Console.WriteLine(
@@ -89,19 +78,52 @@ namespace PanoptesNetClient
         /// Make a POST request. This should typically be for a new classification
         /// </summary>
         #region Generic Create with IResource
-        public async Task<IResource> Create<T>(IResource resource)
+        public async Task<T> Create<T>(IResource resource)
         {
-            var dict = new Dictionary<string, IResource>();
-            dict.Add(resource.Type(), resource);
+            var att = (Path)Attribute.GetCustomAttribute(typeof(T), typeof(Path));
+            var dict = new Dictionary<string, IResource>
+            {
+                { att.Type, resource }
+            };
 
             string jsonString = JsonConvert.SerializeObject(dict);
-
             StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await Client.PostAsync(
-                $"{Config.Host}/api/{resource.Type()}", content);
+                $"{Config.Host}{att.Uri}", content);
+            
+            if (response.IsSuccessStatusCode)
+            {
+                string d = await response.Content.ReadAsStringAsync();
+                List<T> result = ParseResponse<T>(d);
+                return result[0];
+            } else
+            {
+                Console.WriteLine(
+                    $"Error: the status code is {response.StatusCode}"
+                );
+            }
+            return default(T);
+        }
+        #endregion
 
-            return resource;
+        /// <summary>
+        /// ParseResponse parses JSON from a REST request
+        /// </summary>
+        #region
+        public List<T> ParseResponse<T>(string response)
+        {
+            var att = (Path)Attribute.GetCustomAttribute(typeof(T), typeof(Path));
+            JObject parsedResponse = JObject.Parse(response);
+            List<JToken> list = parsedResponse[att.Type].Children().ToList();
+            List<T> listOfResources = new List<T>();
+
+            foreach (JToken item in list)
+            {
+                T resource = item.ToObject<T>();
+                listOfResources.Add(resource);
+            }
+            return listOfResources;
         }
         #endregion
     }

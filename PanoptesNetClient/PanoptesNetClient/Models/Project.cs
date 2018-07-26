@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace PanoptesNetClient.Models
 {
+    [Path("/api/projects", "projects")]
     public class Project : IResource
     {
         [JsonProperty("id")]
@@ -32,11 +33,6 @@ namespace PanoptesNetClient.Models
 
         [JsonProperty("retired_subjects_count")]
         public int RetiredSubjectsCount { get; set; }
-
-        public string Type()
-        {
-            return "projects";
-        }
 
         public bool ShouldSerializeId()
         {

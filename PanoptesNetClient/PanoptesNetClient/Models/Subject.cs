@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace PanoptesNetClient.Models
 {
+    [Path("/api/subjects", "subjects")]
     public class Subject : IResource
     {
         [JsonProperty("id")]
@@ -23,11 +24,6 @@ namespace PanoptesNetClient.Models
 
         [JsonProperty("links")]
         public SubjectLinks Links { get; set; }
-
-        public string Type()
-        {
-            return "subjects";
-        }
 
         public bool ShouldSerializeId()
         {
