@@ -47,8 +47,7 @@ namespace PanoptesNetClientTests_NUnit
         [Test]
         public async Task Get()
         {
-            IRequest request = new Request("classifications").ById("45");
-            var result = await Client.Get<Classification>(request);
+            Classification result = await Client.Classifications.Get("45");
             Assert.That(result, Is.Not.Null);
             Assert.IsInstanceOf<IResource>(result);
         }
@@ -59,8 +58,7 @@ namespace PanoptesNetClientTests_NUnit
         [Test]
         public async Task GetList()
         {
-            IRequest request = new Request("classifications").ById("45");
-            var result = await Client.GetList<Classification>(request);
+            var result = await Client.Classifications.GetList();
             Assert.That(result, Is.Not.Null);
             Assert.AreEqual(result.Count, 1);
         }
@@ -73,7 +71,7 @@ namespace PanoptesNetClientTests_NUnit
         public async Task Create()
         {
             Classification classification = new Classification();
-            var result = await Client.Create<Classification>(classification);
+            var result = await Client.Classifications.Create(classification, "classifications");
             Assert.That(result, Is.Not.Null);
             Assert.IsInstanceOf<Classification>(result);
         }
