@@ -2,7 +2,6 @@
 
 namespace PanoptesNetClient.Models
 {
-    [Path("/api/projects", "projects")]
     public class Project : IResource
     {
         [JsonProperty("id")]

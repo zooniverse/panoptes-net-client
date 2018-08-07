@@ -1,7 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace PanoptesNetClient
@@ -13,9 +11,10 @@ namespace PanoptesNetClient
         public string Endpoint => BuildEndpoint();
         private string Query;
 
-        public Request(string resource)
+        public Request(string resource, string id = null)
         {
             Resource = resource;
+            Id = id;
         }
 
         public IRequest ById(string id)

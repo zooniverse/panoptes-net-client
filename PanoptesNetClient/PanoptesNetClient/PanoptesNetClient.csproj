@@ -47,6 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiClient.cs" />
+    <Compile Include="Clients\ClassificationClient.cs" />
+    <Compile Include="Clients\ProjectClient.cs" />
+    <Compile Include="Clients\SubjectClient.cs" />
+    <Compile Include="Clients\SubjectSetClient.cs" />
+    <Compile Include="Clients\WorkflowClient.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="IRequest.cs" />
     <Compile Include="Models\Annotation.cs" />
@@ -56,7 +61,6 @@
     <Compile Include="Models\Subject.cs" />
     <Compile Include="Models\SubjectSet.cs" />
     <Compile Include="Models\Workflow.cs" />
-    <Compile Include="Path.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request.cs" />
   </ItemGroup>

@@ -2,7 +2,6 @@
 
 namespace PanoptesNetClient.Models
 {
-    [Path("/api/subject_sets", "subject_sets")]
     public class SubjectSet : IResource
     {
         [JsonProperty("id")]

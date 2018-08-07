@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using PanoptesNetClient.Clients;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace PanoptesNetClient
             Client.DefaultRequestHeaders.Add("Accept", "application/vnd.api+json; version=1");
         }
 
+        #region Instantiation
         public ApiClient(HttpClient client = null)
         {
             if (Client == null)
@@ -35,14 +37,15 @@ namespace PanoptesNetClient
                 ConfigClient();
             }
         }
+        #endregion
 
         /// <summary>
         /// Make a GET request for a single resource using IRequest
         /// </summary>
-        #region Generic GET using IRequest
-        public async Task<T> Get<T>(IRequest request)
+        #region Generic GET of single resource
+        public async Task<T> Get<T>(IRequest request) where T:IResource
         {
-            List<T> collection = await GetAsync<T>(request.Endpoint);
+            List<T> collection = await GetAsync<T>(request);
 
             if (collection.Count > 0)
             {
@@ -53,30 +56,23 @@ namespace PanoptesNetClient
         #endregion
 
         /// <summary>
-        /// Make a GET request for a single resource using an endpoint
+        /// Make a GET request for a list of resources
         /// </summary>
-        #region Generic GET using string
-        public async Task<T> Get<T>(string route)
+        #region Generic GET of List
+        public async Task<List<T>> GetList<T>(IRequest request) where T : IResource
         {
-            var att = (Path)Attribute.GetCustomAttribute(typeof(T), typeof(Path));
-            List<T> collection = await GetAsync<T>($"{att.Uri}/{route}");
-
-            if (collection.Count > 0)
-            {
-                return collection[0];
-            }
-            return default(T);
+            return await GetAsync<T>(request);
         }
         #endregion
 
         #region Main GET call
-        public async Task<List<T>> GetAsync<T>(string endpoint)
+        public async Task<List<T>> GetAsync<T>(IRequest request) where T:IResource
         {
-            HttpResponseMessage response = await Client.GetAsync(endpoint);
+            HttpResponseMessage response = await Client.GetAsync(request.Endpoint);
             if (response.IsSuccessStatusCode)
             {
                 string d = await response.Content.ReadAsStringAsync();
-                return ParseResponse<T>(d);
+                return ParseResponse<T>(d, request.Resource);
             }
             else
             {
@@ -89,43 +85,26 @@ namespace PanoptesNetClient
         #endregion
 
         /// <summary>
-        /// Make a GET request for a list of resources
-        /// </summary>
-        #region Generic GET of List
-        public async Task<List<T>> GetList<T>(IRequest request) 
-        {
-            return await GetAsync<T>(request.Endpoint);
-        }
-        #endregion
-
-        public async Task<List<T>> GetList<T>(string route)
-        {
-            var att = (Path)Attribute.GetCustomAttribute(typeof(T), typeof(Path));
-            return await GetAsync<T>($"{att.Uri}/{route}");
-        }
-
-        /// <summary>
         /// Make a POST request. This should typically be for a new classification
         /// </summary>
-        #region Generic Create with IResource
-        public async Task<T> Create<T>(IResource resource)
+        #region Generic Create
+        public async Task<T> Create<T>(T resource, string type) where T:IResource
         {
-            var att = (Path)Attribute.GetCustomAttribute(typeof(T), typeof(Path));
             var dict = new Dictionary<string, IResource>
             {
-                { att.Type, resource }
+                { type, resource }
             };
 
             string jsonString = JsonConvert.SerializeObject(dict);
             StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await Client.PostAsync(
-                $"{Config.Host}{att.Uri}", content);
+                $"{Config.Host}/api/{type}", content);
             
             if (response.IsSuccessStatusCode)
             {
                 string d = await response.Content.ReadAsStringAsync();
-                List<T> result = ParseResponse<T>(d);
+                List<T> result = ParseResponse<T>(d, type);
                 return result[0];
             } else
             {
@@ -141,11 +120,10 @@ namespace PanoptesNetClient
         /// ParseResponse parses JSON from a REST request
         /// </summary>
         #region
-        public List<T> ParseResponse<T>(string response)
+        public List<T> ParseResponse<T>(string response, string type)
         {
-            var att = (Path)Attribute.GetCustomAttribute(typeof(T), typeof(Path));
             JObject parsedResponse = JObject.Parse(response);
-            List<JToken> list = parsedResponse[att.Type].Children().ToList();
+            List<JToken> list = parsedResponse[type].Children().ToList();
             List<T> listOfResources = new List<T>();
 
             foreach (JToken item in list)
@@ -155,6 +133,43 @@ namespace PanoptesNetClient
             }
             return listOfResources;
         }
+        #endregion
+
+        #region Client Properties
+        public SubjectClient Subjects
+        {
+            get { return _subjectClient ?? (_subjectClient = new SubjectClient()); }
+        }
+
+        private SubjectClient _subjectClient;
+
+        public ProjectClient Projects
+        {
+            get { return _projectClient ?? (_projectClient = new ProjectClient()); }
+        }
+
+        private ProjectClient _projectClient;
+
+        public ClassificationClient Classifications
+        {
+            get { return _classificationClient ?? (_classificationClient = new ClassificationClient()); }
+        }
+
+        private ClassificationClient _classificationClient;
+
+        public WorkflowClient Workflows
+        {
+            get { return _workflowClient ?? (_workflowClient = new WorkflowClient()); }
+        }
+
+        private WorkflowClient _workflowClient;
+
+        public SubjectSetClient SubjectSets
+        {
+            get { return _subjectSetClient ?? (_subjectSetClient = new SubjectSetClient()); }
+        }
+
+        private SubjectSetClient _subjectSetClient;
         #endregion
     }
 }

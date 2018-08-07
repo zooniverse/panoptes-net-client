@@ -2,7 +2,6 @@
 
 namespace PanoptesNetClient.Models
 {
-    [Path("/api/workflows", "workflows")]
     public class Workflow : IResource
     {
         [JsonProperty("id")]

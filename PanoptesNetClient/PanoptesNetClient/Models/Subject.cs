@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace PanoptesNetClient.Models
 {
-    [Path("/api/subjects", "subjects")]
     public class Subject : IResource
     {
         [JsonProperty("id")]
