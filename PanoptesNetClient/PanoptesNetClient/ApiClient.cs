@@ -43,7 +43,7 @@ namespace PanoptesNetClient
         /// Make a GET request for a single resource using IRequest
         /// </summary>
         #region Generic GET of single resource
-        public async Task<T> Get<T>(IRequest request) where T:IResource
+        protected async Task<T> Get<T>(IRequest request) where T:IResource
         {
             List<T> collection = await GetAsync<T>(request);
 
@@ -59,14 +59,14 @@ namespace PanoptesNetClient
         /// Make a GET request for a list of resources
         /// </summary>
         #region Generic GET of List
-        public async Task<List<T>> GetList<T>(IRequest request) where T : IResource
+        protected async Task<List<T>> GetList<T>(IRequest request) where T : IResource
         {
             return await GetAsync<T>(request);
         }
         #endregion
 
         #region Main GET call
-        public async Task<List<T>> GetAsync<T>(IRequest request) where T:IResource
+        private async Task<List<T>> GetAsync<T>(IRequest request) where T:IResource
         {
             HttpResponseMessage response = await Client.GetAsync(request.Endpoint);
             if (response.IsSuccessStatusCode)
@@ -120,7 +120,7 @@ namespace PanoptesNetClient
         /// ParseResponse parses JSON from a REST request
         /// </summary>
         #region
-        public List<T> ParseResponse<T>(string response, string type)
+        private List<T> ParseResponse<T>(string response, string type)
         {
             JObject parsedResponse = JObject.Parse(response);
             List<JToken> list = parsedResponse[type].Children().ToList();
