@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using PanoptesNetClient;
-using System;
+﻿using System;
 
 namespace ClientRunner
 {
@@ -8,7 +6,6 @@ namespace ClientRunner
     {
         static void Main(string[] args)
         {
-            ApiClient client = new ApiClient();
             Console.ReadLine();
         }
     }

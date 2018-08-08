@@ -1,22 +1,20 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace PanoptesNetClient
 {
     public class Request : IRequest
     {
-        private string Resource;
+        public string Resource { get; set; }
         private string Id;
-        public string Endpoint { get; set; }
+        public string Endpoint => BuildEndpoint();
         private string Query;
 
-        public Request(string resource)
+        public Request(string resource, string id = null)
         {
             Resource = resource;
-            Endpoint = $"api/{resource}/";
+            Id = id;
         }
 
         public IRequest ById(string id)
@@ -37,16 +35,18 @@ namespace PanoptesNetClient
             return this;
         }
 
-        public void BuildEndpoint()
+        public string BuildEndpoint()
         {
+            string Path = $"api/{Resource}/";
             if (!string.IsNullOrEmpty(Id))
             {
-                Endpoint += Id;
+                Path += Id;
             }
             if (!string.IsNullOrEmpty(Query))
             {
-                Endpoint += Query;
+                Path += Query;
             }
+            return Path;
         }
     }
 }

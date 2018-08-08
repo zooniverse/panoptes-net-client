@@ -1,7 +1,7 @@
 ﻿using Moq;
-using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using PanoptesNetClient;
+using PanoptesNetClient.Models;
 using PanoptesNetClientTests;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -19,7 +19,14 @@ namespace PanoptesNetClientTests_NUnit
         public void SetUp()
         {
             _fakeHttpMessageHandler = new Mock<FakeHttpMessageHandler> { CallBase = true };
+            _fakeHttpMessageHandler.Setup(f => f.Send(It.IsAny<HttpRequestMessage>())).Returns(new HttpResponseMessage
+            {
+                StatusCode = System.Net.HttpStatusCode.OK,
+                Content = new StringContent("{\"classifications\":[{\"id\":\"45\"}]}")
+            });
+
             _httpClient = new HttpClient(_fakeHttpMessageHandler.Object);
+            Client = new ApiClient(_httpClient);
         }
 
         // <summary>
@@ -35,22 +42,38 @@ namespace PanoptesNetClientTests_NUnit
         }
 
         // <summary>
-        // Test that GetAsync returns the correct object that is not null
+        // Test that Get returns a single object that is not null
         // </summary>
         [Test]
-        public async Task GetAsync()
+        public async Task Get()
         {
-            _fakeHttpMessageHandler.Setup(f => f.Send(It.IsAny<HttpRequestMessage>())).Returns(new HttpResponseMessage
-            {
-                StatusCode = System.Net.HttpStatusCode.OK,
-                Content = new StringContent("{\"success\": false,\"error-codes\": [\"It's a fake error!\",\"It's a fake error\"]}")
-            });
-            Client = new ApiClient(_httpClient);
-
-            IRequest request = new Request("projects").ById("45");
-            var result = await Client.GetAsync(request);
+            Classification result = await Client.Classifications.Get("45");
             Assert.That(result, Is.Not.Null);
-            Assert.IsInstanceOf<JObject>(result);
+            Assert.IsInstanceOf<IResource>(result);
+        }
+
+        /// <summary>
+        /// Test that GetList returns a list object of the expected amount
+        /// </summary>
+        [Test]
+        public async Task GetList()
+        {
+            var result = await Client.Classifications.GetList();
+            Assert.That(result, Is.Not.Null);
+            Assert.AreEqual(result.Count, 1);
+        }
+
+        /// <summary>
+        /// Test that Create returns a single object that is not null
+        /// </summary>
+        /// <returns></returns>
+        [Test]
+        public async Task Create()
+        {
+            Classification classification = new Classification();
+            var result = await Client.Classifications.Create(classification, "classifications");
+            Assert.That(result, Is.Not.Null);
+            Assert.IsInstanceOf<Classification>(result);
         }
     }
 }
