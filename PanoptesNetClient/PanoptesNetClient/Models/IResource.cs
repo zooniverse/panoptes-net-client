@@ -2,7 +2,7 @@
 
 namespace PanoptesNetClient
 {
-    public class IResource
+    public interface IResource
     {
         string Id { get; set; }
     }

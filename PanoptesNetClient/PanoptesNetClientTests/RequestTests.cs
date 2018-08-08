@@ -15,7 +15,6 @@ namespace PanoptesNetClientTests_NUnit
         {
             IRequest request = new Request("projects");
             request.ById("45");
-            request.BuildEndpoint();
             string expected = "api/projects/45";
             Assert.AreEqual(expected, request.Endpoint);
         }
@@ -31,7 +30,6 @@ namespace PanoptesNetClientTests_NUnit
             query.Add( "id", "45" );
             query.Add( "approved", "true" );
             request.WithArgs(query);
-            request.BuildEndpoint();
             string expected = "api/projects/?id=45&approved=true";
             Assert.AreEqual(request.Endpoint, expected);
         }

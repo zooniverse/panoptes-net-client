@@ -71,8 +71,8 @@ namespace PanoptesNetClient
             HttpResponseMessage response = await Client.GetAsync(request.Endpoint);
             if (response.IsSuccessStatusCode)
             {
-                string d = await response.Content.ReadAsStringAsync();
-                return ParseResponse<T>(d, request.Resource);
+                string data = await response.Content.ReadAsStringAsync();
+                return ParseResponse<T>(data, request.Resource);
             }
             else
             {
@@ -103,8 +103,8 @@ namespace PanoptesNetClient
             
             if (response.IsSuccessStatusCode)
             {
-                string d = await response.Content.ReadAsStringAsync();
-                List<T> result = ParseResponse<T>(d, type);
+                string data = await response.Content.ReadAsStringAsync();
+                List<T> result = ParseResponse<T>(data, type);
                 return result[0];
             } else
             {
