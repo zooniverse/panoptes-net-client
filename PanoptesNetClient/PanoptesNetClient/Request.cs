@@ -31,16 +31,16 @@ namespace PanoptesNetClient
             {
                 collection[key] = query[key];
             }
-            Query = $"?{collection.ToString()}";
+            Query = $"/?{collection.ToString()}";
             return this;
         }
 
         public string BuildEndpoint()
         {
-            string Path = $"api/{Resource}/";
+            string Path = $"api/{Resource}";
             if (!string.IsNullOrEmpty(Id))
             {
-                Path += Id;
+                Path += $"/{Id}";
             }
             if (!string.IsNullOrEmpty(Query))
             {
