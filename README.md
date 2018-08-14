@@ -11,11 +11,11 @@ In order to run this client, an app must have a config transform with two config
 
 ### GET
 
-A GET request can be made a couple different ways, depending on the return value and need to send a query.
+A GET request can be made a couple different ways, depending on the return value and need to send a query.  
 `ApiClient client = new ApiClient();`
 
-Get a single resource:
-`Workflow workflow = await client.Workflows.Get("1234");``
+Get a single resource:  
+`Workflow workflow = await client.Workflows.Get("1234");`
 
 Get a list of queued subjects for a project:
 ```
