@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using System.Collections.Specialized;
-using System.Threading.Tasks;
+﻿using System.Collections.Specialized;
 
 namespace PanoptesNetClient
 {

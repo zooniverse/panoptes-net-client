@@ -36,7 +36,7 @@ namespace PanoptesNetClientTests_NUnit
         public void Type()
         {
             IRequest request = new Request("projects");
-            string expected = "api/projects/";
+            string expected = "api/projects";
 
             Assert.AreEqual(expected, request.Endpoint);
         }

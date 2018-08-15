@@ -33,5 +33,16 @@ namespace PanoptesNetClientTests_NUnit
             string expected = "api/projects/?id=45&approved=true";
             Assert.AreEqual(request.Endpoint, expected);
         }
+
+        [Test]
+        public void QueuedSubjects()
+        {
+            IRequest request = new Request("subjects", "queued");
+            NameValueCollection query = new NameValueCollection();
+            query.Add("workflow_id", "1234");
+            request.WithArgs(query);
+            string expected = "api/subjects/queued/?workflow_id=1234";
+            Assert.AreEqual(request.Endpoint, expected);
+        }
     }
 }

@@ -42,7 +42,7 @@ namespace PanoptesNetClient
         /// <summary>
         /// Make a GET request for a single resource using IRequest
         /// </summary>
-        #region Generic GET of single resource
+        #region Generic Get of single resource
         protected async Task<T> Get<T>(IRequest request) where T:IResource
         {
             List<T> collection = await GetAsync<T>(request);
@@ -58,14 +58,14 @@ namespace PanoptesNetClient
         /// <summary>
         /// Make a GET request for a list of resources
         /// </summary>
-        #region Generic GET of List
+        #region Generic GetList
         protected async Task<List<T>> GetList<T>(IRequest request) where T : IResource
         {
             return await GetAsync<T>(request);
         }
         #endregion
 
-        #region Main GET call
+        #region Main GetAsync call
         private async Task<List<T>> GetAsync<T>(IRequest request) where T:IResource
         {
             HttpResponseMessage response = await Client.GetAsync(request.Endpoint);
@@ -76,8 +76,9 @@ namespace PanoptesNetClient
             }
             else
             {
+                string error = response.Content.ReadAsStringAsync().Result;
                 Console.WriteLine(
-                    $"Error: the status code is {response.StatusCode}"
+                    $"Error: {error}"
                 );
             }
             return default(List<T>);
