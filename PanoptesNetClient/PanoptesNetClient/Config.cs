@@ -10,7 +10,6 @@ namespace PanoptesNetClient
         public static string Host;
         public static string ClientAppId;
         public static string StatsHost;
-        public static string OAuthHost;
 
         static Config()
         {
@@ -18,7 +17,6 @@ namespace PanoptesNetClient
             Host = appSettings["ApiHost"];
             ClientAppId = appSettings["ApplicationId"];
             StatsHost = appSettings["StatsHost"];
-            OAuthHost = appSettings["OAuthHost"];
         }
     }
 }
