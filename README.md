@@ -7,7 +7,7 @@ This repo contains three projects: a `ConsoleApp` (to test calls while developin
 ## Requirements
 In order to run this client, an app must have a config transform with two config files (debug and release) to account for the Config class calling the `ConfigurationManager`.
 
-In this repo, the `ConsoleApp` contains an example of how config files should be set up to run the client (`App.Debug.config` and `App.Release.Config`).
+In this repo, the `ConsoleApp` contains an example of how config files should be set up to run the client (`App.Debug.config` and `App.Release.Config`).  
 Ex: `<add key="Environment" value="Debug" xdt:Transform="Replace" xdt:Locator="Match(key)" />`
 
 Each config file should contain four keys: `Environment`, `ApiHost`, `ApplicationId`, and `StatsHost`. Note: these keys should also be contained in the main `App.Config` as empty strings.
