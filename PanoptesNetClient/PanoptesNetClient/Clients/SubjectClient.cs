@@ -20,7 +20,7 @@ namespace PanoptesNetClient.Clients
             {
                 request.WithArgs(query);
             }
-
+            
             return await GetList<Subject>(request);
         }
     }

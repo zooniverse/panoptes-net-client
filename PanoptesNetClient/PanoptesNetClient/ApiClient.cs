@@ -109,8 +109,9 @@ namespace PanoptesNetClient
                 return result[0];
             } else
             {
+                string error = response.Content.ReadAsStringAsync().Result;
                 Console.WriteLine(
-                    $"Error: the status code is {response.StatusCode}"
+                    $"Error: {error}"
                 );
             }
             return default(T);

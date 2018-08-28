@@ -9,5 +9,11 @@ namespace PanoptesNetClient.Models
 
         [JsonProperty("value")]
         public object Value { get; set; }
+
+        public Annotation(string task, object value)
+        {
+            Task = task;
+            Value = value;
+        }
     }
 }
