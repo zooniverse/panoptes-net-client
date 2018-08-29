@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Zooniverse</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://github.com/zooniverse/panoptes-net-client/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/zooniverse/panoptes-net-client</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A .NET client for accessing the the Zooniverse Panoptes api.</description>
+    <releaseNotes>Initial release of the .NET client allowing GET and POST of resources.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>client zooniverse panoptes</tags>
+  </metadata>
+</package>
