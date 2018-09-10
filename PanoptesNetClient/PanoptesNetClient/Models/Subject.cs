@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PanoptesNetClient.Models
 {
@@ -23,6 +25,18 @@ namespace PanoptesNetClient.Models
         public bool ShouldSerializeId()
         {
             return false;
+        }
+
+        public string GetSubjectLocation(int frame = 0)
+        {
+            string[] acceptedImages = { "image/jpeg", "image/png", "image/svg+xml", "image/gif" };
+
+            foreach (JProperty property in Locations[0])
+            {
+                if (acceptedImages.Contains(property.Name))
+                    return (string)property.Value;
+            }
+            return null;
         }
     }
 
