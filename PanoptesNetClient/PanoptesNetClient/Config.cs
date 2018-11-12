@@ -7,16 +7,8 @@ namespace PanoptesNetClient
 {
     static class Config
     {
-        public static string Host;
-        public static string ClientAppId;
-        public static string StatsHost;
-
-        static Config()
-        {
-            var appSettings = ConfigurationManager.AppSettings;
-            Host = appSettings["ApiHost"];
-            ClientAppId = appSettings["ApplicationId"];
-            StatsHost = appSettings["StatsHost"];
-        }
+        public static string Host = ConfigurationManager.AppSettings["ApiHost"];
+        public static string ClientAppId = ConfigurationManager.AppSettings["ApplicationId"];
+        public static string StatsHost = ConfigurationManager.AppSettings["StatsHost"];
     }
 }
