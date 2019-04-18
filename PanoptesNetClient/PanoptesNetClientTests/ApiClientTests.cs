@@ -73,7 +73,7 @@ namespace PanoptesNetClientTests_NUnit
             Classification classification = new Classification();
             var result = await Client.Classifications.Create(classification, "classifications");
             Assert.That(result, Is.Not.Null);
-            Assert.IsInstanceOf<Classification>(result);
+            Assert.IsInstanceOf<HttpResponseMessage>(result);
         }
     }
 }

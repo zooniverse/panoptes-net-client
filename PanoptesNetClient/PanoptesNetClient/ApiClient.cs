@@ -100,23 +100,9 @@ namespace PanoptesNetClient
             StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await Client.PostAsync(
-                $"{Config.Host}/pi/{type}", content);
+                $"{Config.Host}/api/{type}", content);
 
             return response;
-
-            //if (response.IsSuccessStatusCode)
-            //{
-            //    string data = await response.Content.ReadAsStringAsync();
-            //    List<T> result = ParseResponse<T>(data, type);
-            //    return result[0];
-            //} else
-            //{
-            //    var error = response.ReasonPhrase;
-            //    Console.WriteLine(
-            //        $"Error: {(int)response.StatusCode}: {error}"
-            //    );
-            //}
-            //return default(T);
         }
         #endregion
 
