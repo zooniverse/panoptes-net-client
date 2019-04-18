@@ -1,6 +1,7 @@
 ﻿using PanoptesNetClient.Models;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace PanoptesNetClient.Clients
@@ -24,7 +25,7 @@ namespace PanoptesNetClient.Clients
             return await GetList<Classification>(request);
         }
 
-        public async Task<Classification> Create(Classification classification)
+        public async Task<HttpResponseMessage> Create(Classification classification)
         {
             return await Create(classification, "classifications");
         }

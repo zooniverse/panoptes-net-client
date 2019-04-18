@@ -12,7 +12,7 @@ namespace PanoptesNetClient.Models
         public string DisplayName { get; set; }
 
         [JsonProperty("tasks")]
-        public Dictionary<string, WorkflowTask> Tasks { get; set; }
+        public Dictionary<string, WorkflowTask> Tasks { get; set; } = new Dictionary<string, WorkflowTask>();
 
         [JsonProperty("classifications_count")]
         public int ClassificationsCount { get; set; }
@@ -50,7 +50,13 @@ namespace PanoptesNetClient.Models
         public string Type { get; set; }
 
         [JsonProperty("answers")]
-        public List<TaskAnswer> Answers {get;set;}
+        public List<TaskAnswer> Answers { get; set; } = new List<TaskAnswer>();
+
+        public WorkflowTask(string question, List<TaskAnswer> answers)
+        {
+            Answers = answers;
+            Question = question;
+        }
     }
 
     public class TaskAnswer
@@ -60,5 +66,11 @@ namespace PanoptesNetClient.Models
 
         [JsonProperty("next")]
         public string Next { get; set; }
+
+        public TaskAnswer(string label, string next = null)
+        {
+            Label = label;
+            Next = next;
+        }
     }
 }

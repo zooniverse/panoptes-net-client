@@ -89,7 +89,7 @@ namespace PanoptesNetClient
         /// Make a POST request. This should typically be for a new classification
         /// </summary>
         #region Generic Create
-        public async Task<T> Create<T>(T resource, string type) where T:IResource
+        public async Task<HttpResponseMessage> Create<T>(T resource, string type) where T:IResource
         {
             var dict = new Dictionary<string, IResource>
             {
@@ -100,21 +100,23 @@ namespace PanoptesNetClient
             StringContent content = new StringContent(jsonString, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await Client.PostAsync(
-                $"{Config.Host}/api/{type}", content);
-            
-            if (response.IsSuccessStatusCode)
-            {
-                string data = await response.Content.ReadAsStringAsync();
-                List<T> result = ParseResponse<T>(data, type);
-                return result[0];
-            } else
-            {
-                string error = response.Content.ReadAsStringAsync().Result;
-                Console.WriteLine(
-                    $"Error: {error}"
-                );
-            }
-            return default(T);
+                $"{Config.Host}/pi/{type}", content);
+
+            return response;
+
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    string data = await response.Content.ReadAsStringAsync();
+            //    List<T> result = ParseResponse<T>(data, type);
+            //    return result[0];
+            //} else
+            //{
+            //    var error = response.ReasonPhrase;
+            //    Console.WriteLine(
+            //        $"Error: {(int)response.StatusCode}: {error}"
+            //    );
+            //}
+            //return default(T);
         }
         #endregion
 
