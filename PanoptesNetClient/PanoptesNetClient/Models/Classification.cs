@@ -58,5 +58,8 @@ namespace PanoptesNetClient.Models
 
         [JsonProperty("workflow_version")]
         public string WorkflowVersion { get; set; }
+
+        [JsonProperty("utc_offset")]
+        public string UtcOffset { get; set; }
     }
 }
