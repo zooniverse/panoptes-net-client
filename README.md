@@ -12,6 +12,11 @@ Ex: `<add key="Environment" value="Debug" xdt:Transform="Replace" xdt:Locator="M
 
 Each config file should contain four keys: `Environment`, `ApiHost`, `ApplicationId`, and `StatsHost`. Note: these keys should also be contained in the main `App.Config` as empty strings.
 
+## NuGet?
+The Panoptes [.NET client](https://www.nuget.org/packages/PanoptesNetClient) is hosted on NuGet, which is a package manager for the Microsoft development platform. Should you need to publish any changes on NuGet, Microsoft has a nice [guide](https://docs.microsoft.com/en-us/nuget/nuget-org/publish-a-package) on how to publish. There's also some more detailed information [here](https://docs.microsoft.com/en-us/nuget/install-nuget-client-tools) on getting the NuGet cli set up.
+
+If this API key is expired, you'll need to regenerate a new API key by [logging into](https://www.nuget.org/account/ApiKeys) the NuGet account using the Zooniverse Microsoft credentials. Once you're in, you can regenerate a new key and use that key to push changes to NuGet.
+
 ## Making a Request
 
 ### GET
